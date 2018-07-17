@@ -46,6 +46,8 @@ Route::get('gen_qualify/{conf_id}/{comp_id}/{groups?}', function ($conf_id, $com
 Route::get('ranking', function() {
     $ranks = \App\TeamRanking::orderBy('ranking_points', 'desc')->get();
 
+    return view('ranking', ['teams' => $ranks]);
+
     echo '<table>';
     $i=1;
     foreach ($ranks as $rank) {
