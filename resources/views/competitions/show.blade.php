@@ -12,7 +12,6 @@
         </div>
 
         @if (count($competition->playoffs))
-            <h3>Play Offs</h3>
             <?php $currentStep = null; ?>
             @foreach ($competition->playoffs as $playoff)
             @if ($currentStep != $playoff->step)
