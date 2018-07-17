@@ -167,7 +167,8 @@ function playGame($gameId)
 function shootPenalties($ht, $at) : int
 {
     $teams = [$ht, $at];
-    return end(shuffle($teams));
+    $teamsShuffled = shuffle($teams);
+    return end($teamsShuffled);
 
     // penalties
     $homepenalties = 0;
