@@ -9,7 +9,8 @@
 
                     <div class="card-body">
                         <ol>
-                            <?php $i=($_GET['page'] * $worldCups->perPage()) - ($worldCups->perPage() - 1); ?>
+                            <?php $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                            $i=($page * $worldCups->perPage()) - ($worldCups->perPage() - 1); ?>
                             @foreach ($worldCups as $worldCup)
                                 <li>
                                     <a href="/competitions/{{ $worldCup->id }}">{{ $worldCup->name }} #{{ $i }}</a>
