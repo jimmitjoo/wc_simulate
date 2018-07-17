@@ -21,11 +21,11 @@ function playGame($gameId)
     $awayscore = 0;
 
     for ($i = 0; $i < 10; $i++) {
-        $homechance = rand(0, round(round($homeRank / 100) * 10));
-        $awaychance = rand(0, round(round($awayRank / 100) * 10));
+        $homechance = rand(0, round(round($homeRank/100)*10));
+        $awaychance = rand(0, round(round($awayRank/100)*10));
 
-        $homedefence = rand(0, round(round($homeRank / 100) * 10));
-        $awaydefence = rand(0, round(round($awayRank / 100) * 10));
+        $homedefence = rand(0, round(round($homeRank/100)*10));
+        $awaydefence = rand(0, round(round($awayRank/100)*10));
 
         $chance = rand(0, 100);
 
@@ -97,9 +97,9 @@ function playGame($gameId)
         } else {
             $advancingTeamId = shootPenalties($game->hometeam_id, $game->awayteam_id);
 
-            if ($advancingTeamId === $game->hometeam_id) {
+            if ($advancingTeamId == $game->hometeam_id) {
                 $game->hometeam_penalties_score = 1;
-            } elseif ($advancingTeamId === $game->awayteam_id) {
+            } elseif ($advancingTeamId == $game->awayteam_id) {
                 $game->awayteam_penalties_score = 1;
             }
         }
@@ -164,13 +164,10 @@ function playGame($gameId)
     echo $game->hometeam->name . ' ' . $homescore . ' - ' . $awayscore . ' ' . $game->awayteam->name;
 }
 
-function shootPenalties($ht, $at)
+function shootPenalties($ht, $at) : int
 {
     $teams = [$ht, $at];
-    $res = shuffle($teams);
-    $winner = $res[0];
-
-    return $winner;
+    return end(shuffle($teams));
 
     // penalties
     $homepenalties = 0;
@@ -227,33 +224,30 @@ function generatePlayoffs($competitionId)
     if (!$continue) return;
 
     $playOffStep = \App\PlayOff::where('competition_id', $competitionId)->where('hometeam_id', null)->where('awayteam_id', null)->orderBy('step')->first();
-    if ($playOffStep) {
-        $playOffs = \App\PlayOff::where('competition_id', $competitionId)->where('hometeam_id', null)->where('awayteam_id', null)->where('step', $playOffStep->step)->get();
+    $playOffs = \App\PlayOff::where('competition_id', $competitionId)->where('hometeam_id', null)->where('awayteam_id', null)->where('step', $playOffStep->step)->get();
 
-        foreach ($playOffs as $playOff) {
+    foreach ($playOffs as $playOff) {
 
-            $homeTeamLeague = \App\League::find($playOff->hometeam_league_id);
-            $awayTeamLeague = \App\League::find($playOff->awayteam_league_id);
+        $homeTeamLeague = \App\League::find($playOff->hometeam_league_id);
+        $awayTeamLeague = \App\League::find($playOff->awayteam_league_id);
 
-            if ($homeTeamLeague && $awayTeamLeague) {
-                $hometeam_id = $homeTeamLeague->teams[$playOff->hometeam_league_place - 1]->team_id;
-                $awayteam_id = $awayTeamLeague->teams[$playOff->awayteam_league_place - 1]->team_id;
+        $hometeam_id = $homeTeamLeague->teams[$playOff->hometeam_league_place - 1]->team_id;
+        $awayteam_id = $awayTeamLeague->teams[$playOff->awayteam_league_place - 1]->team_id;
 
 
-                $playOff->hometeam_id = $hometeam_id;
-                $playOff->awayteam_id = $awayteam_id;
-                $playOff->save();
+        $playOff->hometeam_id = $hometeam_id;
+        $playOff->awayteam_id = $awayteam_id;
+        $playOff->save();
 
-                $game = new \App\Game();
-                $game->hometeam_id = $hometeam_id;
-                $game->awayteam_id = $awayteam_id;
-                $game->starting_time = date('Y-m-d H:i', strtotime('+0 days'));
-                $game->playoff_id = $playOff->id;
-                $game->competition_id = $competitionId;
-                $game->save();
-            }
-        }
+        $game = new \App\Game();
+        $game->hometeam_id = $hometeam_id;
+        $game->awayteam_id = $awayteam_id;
+        $game->starting_time = date('Y-m-d H:i', strtotime('+0 days'));
+        $game->playoff_id = $playOff->id;
+        $game->competition_id = $competitionId;
+        $game->save();
     }
+
 }
 
 function generateCompetition($competitionId, $amountGroups = null, $gameTime, $playoffs = true, $meetings = 2, $startDate = null, $endDate = null)
