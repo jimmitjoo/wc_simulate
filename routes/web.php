@@ -20,7 +20,9 @@ Route::get('/', function () {
            $ct->save();
         }*/
 
-    return view('welcome');
+    $worldCups = \App\Competition::where('ranking_multiplier', 4.0)->paginate(15);
+
+    return view('home', ['worldCups' => $worldCups]);
 });
 
 Route::get('gen_qualify/{conf_id}/{comp_id}/{groups?}', function ($conf_id, $comp_id, $groups) {
