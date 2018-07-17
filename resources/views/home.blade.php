@@ -8,7 +8,7 @@
                     <div class="card-header">World Cups</div>
 
                     <div class="card-body">
-                        <ol>
+                        <ul>
                             <?php $page = isset($_GET['page']) ? $_GET['page'] : 1;
                             $i=($page * $worldCups->perPage()) - ($worldCups->perPage() - 1); ?>
                             @foreach ($worldCups as $worldCup)
@@ -25,7 +25,7 @@
                                 </li>
                                 <?php $i++; ?>
                             @endforeach
-                        </ol>
+                        </ul>
 
                         {{ $worldCups->links() }}
                     </div>
