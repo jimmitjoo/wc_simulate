@@ -20,7 +20,7 @@ function playGame($gameId)
     $homescore = 0;
     $awayscore = 0;
 
-    for ($i = 0; $i < 10; $i++) {
+    for ($i = 0; $i < 20; $i++) {
         $homechance = rand(0, round(round($homeRank/1000)*10));
         $awaychance = rand(0, round(round($awayRank/1000)*10));
 
