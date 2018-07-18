@@ -11,8 +11,8 @@ function playGame($gameId)
     $game = \App\Game::find($gameId);
     if ($game->status != 'not_started') return;
 
-    $homeRank = ($game->hometeam->points < 500) ? 500 : $game->hometeam->points;
-    $awayRank = ($game->awayteam->points < 500) ? 500 : $game->awayteam->points;
+    $homeRank = ($game->hometeam->points < 1250) ? 1250 : $game->hometeam->points;
+    $awayRank = ($game->awayteam->points < 1250) ? 1250 : $game->awayteam->points;
 
     $totalRanking = $homeRank + $awayRank;
     $homePercent = 100 * (($homeRank / $totalRanking) + 0.01);
