@@ -11,8 +11,8 @@ function playGame($gameId)
     $game = \App\Game::find($gameId);
     if ($game->status != 'not_started') return;
 
-    $homeRank = ($game->hometeam->points < 1250) ? 1250 : $game->hometeam->points;
-    $awayRank = ($game->awayteam->points < 1250) ? 1250 : $game->awayteam->points;
+    $homeRank = ($game->hometeam->points < 5500) ? 5500 : $game->hometeam->points;
+    $awayRank = ($game->awayteam->points < 5500) ? 5500 : $game->awayteam->points;
 
     $totalRanking = $homeRank + $awayRank;
     $homePercent = 100 * (($homeRank / $totalRanking) + 0.01);
@@ -21,11 +21,11 @@ function playGame($gameId)
     $awayscore = 0;
 
     for ($i = 0; $i < 10; $i++) {
-        $homechance = rand(0, round(round($homeRank/100)*10));
-        $awaychance = rand(0, round(round($awayRank/100)*10));
+        $homechance = rand(0, round(round($homeRank/1000)*10));
+        $awaychance = rand(0, round(round($awayRank/1000)*10));
 
-        $homedefence = rand(0, round(round($homeRank/100)*10));
-        $awaydefence = rand(0, round(round($awayRank/100)*10));
+        $homedefence = rand(0, round(round($homeRank/1000)*10));
+        $awaydefence = rand(0, round(round($awayRank/1000)*10));
 
         $chance = rand(0, 100);
 

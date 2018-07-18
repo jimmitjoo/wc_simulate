@@ -10,36 +10,36 @@ class Team extends Model
     {
         $recentHomeGames = Game::where('hometeam_id', $this->id)
             ->orderBy('id', 'desc')
-            ->take(10)
+            ->take(25)
             ->get(['starting_time', 'hometeam_ranking_points']);
 
         $homeGames = Game::where('hometeam_id', $this->id)
             ->orderBy('id', 'desc')
-            ->offset(10)
-            ->take(15)
+            ->offset(25)
+            ->take(50)
             ->get(['starting_time', 'hometeam_ranking_points']);
 
         $oldHomeGames = Game::where('hometeam_id', $this->id)
             ->orderBy('id', 'desc')
-            ->offset(25)
-            ->take(25)
+            ->offset(75)
+            ->take(75)
             ->get(['starting_time', 'hometeam_ranking_points']);
 
         $recentAwayGames = Game::where('awayteam_id', $this->id)
             ->orderBy('id', 'desc')
-            ->take(10)
+            ->take(25)
             ->get(['starting_time', 'awayteam_ranking_points']);
 
         $awayGames = Game::where('awayteam_id', $this->id)
             ->orderBy('id', 'desc')
-            ->offset(10)
-            ->take(15)
+            ->offset(25)
+            ->take(50)
             ->get(['starting_time', 'awayteam_ranking_points']);
 
         $oldAwayGames = Game::where('awayteam_id', $this->id)
             ->orderBy('id', 'desc')
-            ->offset(25)
-            ->take(25)
+            ->offset(75)
+            ->take(75)
             ->get(['starting_time', 'awayteam_ranking_points']);
 
         $rankingPoints =
